@@ -17,13 +17,15 @@ if (form) {
     e.preventDefault();
 
     const booking = {
-      name: document.getElementById("name").value,
-      mobile: document.getElementById("mobile").value,
-      pickup: document.getElementById("pickup").value,
-      drop: document.getElementById("drop").value,
-      date: document.getElementById("date").value,
-      vehicle: document.getElementById("vehicle").value,
-      createdAt: new Date()
+  name: document.getElementById("name").value,
+  mobile: document.getElementById("mobile").value,
+  pickup: document.getElementById("pickup").value,
+  drop: document.getElementById("drop").value,
+  date: document.getElementById("date").value,
+  vehicle: document.getElementById("vehicle").value,
+  status: "Pending",
+  createdAt: new Date()
+};
     };
 
     try {
