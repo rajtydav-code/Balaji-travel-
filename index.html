@@ -1,4 +1,8 @@
-<link rel="manifest" href="manifest.json">
+<script>
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js");
+}
+</script><link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#FFD700"><!-- Fleet Section -->
 <section id="fleet">
   <h2>Our Fleet</h2>
