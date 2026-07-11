@@ -62,6 +62,8 @@ Vehicle: ${vehicle}`;
   });
 }
 // ===== Scroll Animation =====
+const cards = document.querySelectorAll(".service-card, .fleet-card");
+
 window.addEventListener("scroll", () => {
   cards.forEach(card => {
     const position = card.getBoundingClientRect().top;
@@ -69,10 +71,7 @@ window.addEventListener("scroll", () => {
     if (position < window.innerHeight - 100) {
       card.style.opacity = "1";
       card.style.transform = "translateY(0)";
-    } catch (error) {
-  console.error(error);
-  alert(error.message);
-  }
+    }
   });
 });
 
@@ -81,7 +80,6 @@ cards.forEach(card => {
   card.style.transform = "translateY(40px)";
   card.style.transition = "0.8s";
 });
-
 // ===== Back To Top Button =====
 const topBtn = document.createElement("button");
 
