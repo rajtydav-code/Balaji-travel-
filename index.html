@@ -94,7 +94,21 @@ if ("serviceWorker" in navigator) {
 <!-- Booking -->
 <section id="booking">
   <h2>Book Your Ride</h2>
+<form id="bookingForm">
+  <input type="text" id="name" placeholder="Full Name" required>
+  <input type="tel" id="mobile" placeholder="Mobile Number" required>
+  <input type="text" id="pickup" placeholder="Pickup Location" required>
+  <input type="text" id="drop" placeholder="Drop Location" required>
+  <input type="date" id="date" required>
 
+  <select id="vehicle">
+    <option>Maruti Dzire</option>
+    <option>Maruti Ertiga</option>
+    <option>Toyota Innova Crysta</option>
+  </select>
+
+  <button type="submit">Book Now</button>
+</form>
   <form>
     <input type="text" placeholder="Full Name" required>
     <input type="tel" placeholder="Mobile Number" required>
