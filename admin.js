@@ -184,11 +184,11 @@ Our driver will contact you soon.
 📞 Balaji Travel
 9654778379`;
 
-    window.open(
-      "https://wa.me/91" +
-      booking.mobile +
-      "?text=" +
-      encodeURIComponent(message),
+    window.location.href =
+  "https://wa.me/91" +
+  booking.mobile +
+  "?text=" +
+  encodeURIComponent(message);
       "_blank"
     );
 
@@ -225,11 +225,11 @@ We will help you find another available vehicle.
 Thank you,
 Balaji Travel`;
 
-    window.open(
-      "https://wa.me/91" +
-      booking.mobile +
-      "?text=" +
-      encodeURIComponent(message),
+    window.location.href =
+  "https://wa.me/91" +
+  booking.mobile +
+  "?text=" +
+  encodeURIComponent(message);
       "_blank"
     );
 
