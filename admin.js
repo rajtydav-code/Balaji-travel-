@@ -28,20 +28,22 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+const provider = new
+GoogleAuthProvider();
 
-const provider = new GoogleAuthProvider();
+provider.setCustomParameters({
+    prompt: "select_account"
+});
 
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 const table = document.getElementById("bookingTable");
-const loginBtn = document.getElementById("loginBtn");
-const logoutBtn = document.getElementById("logoutBtn");
-const table = document.getElementById("bookingTable");
 
-loginBtn.onclick = () => {
-  signInWithPopup(auth, provider);
+loginBtn.onclick = async () => {
+  await singOut(auth);
+  await signInWithPopup(auth,
+provider);
 };
-
 logoutBtn.onclick = () => {
   signOut(auth);
 };
