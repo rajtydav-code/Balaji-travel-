@@ -1,3 +1,4 @@
+const { db, collection, addDoc } = window;
 // ===== Smooth Scrolling =====
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener("click", function (e) {
@@ -10,25 +11,34 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // ===== Booking Form =====
-const form = document.querySelector("form");
+const form = document.getElementById("bookingForm");
 
 if (form) {
-  form.addEventListener("submit", function (e) {
+  form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    alert("Thank you! Your booking request has been submitted.");
+    const name = document.getElementById("name").value;
+    const mobile = document.getElementById("mobile").value;
+    const pickup = document.getElementById("pickup").value;
+    const drop = document.getElementById("drop").value;
+    const date = document.getElementById("date").value;
+    const vehicle = document.getElementById("vehicle").value;
 
-    const phone = "919654778379";
+    try {
+      await addDoc(collection(db, "bookings"), {
+        name,
+        mobile,
+        pickup,
+        drop,
+        date,
+        vehicle,
+        status: "Pending",
+        createdAt: new Date()
+      });
 
-    const name = form.querySelector('input[placeholder="Full Name"]').value;
-    const mobile = form.querySelector('input[placeholder="Mobile Number"]').value;
-    const pickup = form.querySelector('input[placeholder="Pickup Location"]').value;
-    const drop = form.querySelector('input[placeholder="Drop Location"]').value;
-    const date = form.querySelector('input[type="date"]').value;
-    const vehicle = form.querySelector("select").value;
+      const phone = "919654778379";
 
-    const message =
-`Hello Bala Ji Travel,
+      const message = `Hello Bala Ji Travel,
 
 New Booking Request
 
@@ -39,15 +49,20 @@ Drop: ${drop}
 Date: ${date}
 Vehicle: ${vehicle}`;
 
-    window.open(
-      "https://wa.me/" + phone + "?text=" + encodeURIComponent(message),
-      "_blank"
-    );
+      window.open(
+        "https://wa.me/" + phone + "?text=" + encodeURIComponent(message),
+        "_blank"
+      );
 
-    form.reset();
+      alert("Booking submitted successfully!");
+      form.reset();
+
+    } catch (error) {
+      console.error(error);
+      alert("Booking failed. Please try again.");
+    }
   });
 }
-
 // ===== Scroll Animation =====
 const cards = document.querySelectorAll(".service-card,.fleet-card");
 
