@@ -1,8 +1,11 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
 import {
   getFirestore,
   collection,
   onSnapshot,
+  query,
+  orderBy,
   doc,
   updateDoc,
   deleteDoc
@@ -27,25 +30,28 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
 const auth = getAuth(app);
-const provider = new
-GoogleAuthProvider();
+
+const provider = new GoogleAuthProvider();
 
 provider.setCustomParameters({
     prompt: "select_account"
 });
-
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 const table = document.getElementById("bookingTable");
 
 loginBtn.onclick = async () => {
-  await signOut(auth);
-  await signInWithPopup(auth,
-provider);
+  try {
+    await signOut(auth);
+  } catch (e) {}
+
+  await signInWithPopup(auth, provider);
 };
-logoutBtn.onclick = () => {
-  signOut(auth);
+
+logoutBtn.onclick = async () => {
+  await signOut(auth);
 };
 
 onAuthStateChanged(auth, (user) => {
@@ -66,56 +72,127 @@ onAuthStateChanged(auth, (user) => {
   loginBtn.style.display = "none";
   logoutBtn.style.display = "inline-block";
 
-  onSnapshot(collection(db, "bookings"), (snapshot) => {
+  const q = query(
+    collection(db, "bookings"),
+    orderBy("createdAt", "desc")
+  );
+
+  onSnapshot(q, (snapshot) => {
 
     table.innerHTML = "";
-if (snapshot.empty) {
-  table.innerHTML = `<tr><td colspan="8">No bookings found</td></tr>`;
-  return;
-}
 
-snapshot.forEach((booking) => {
+    if (snapshot.empty) {
+      table.innerHTML =
+      `<tr>
+        <td colspan="8">No bookings found</td>
+      </tr>`;
+      return;
+    }
+
     snapshot.forEach((booking) => {
 
       const data = booking.data();
+      let statusColor = "orange";
 
-      table.innerHTML += `
-      <tr>
-        <td>${data.name}</td>
-        <td>${data.mobile}</td>
-        <td>${data.pickup}</td>
-        <td>${data.drop}</td>
-        <td>${data.date}</td>
-        <td>${data.vehicle}</td>
-        <td>${data.status}</td>
-        <td>
-          <button onclick="approveBooking('${booking.id}')">Approve</button>
-          <button onclick="rejectBooking('${booking.id}')">Reject</button>
-          <button onclick="deleteBooking('${booking.id}')">Delete</button>
-        </td>
-      </tr>
-      `;
+if (data.status === "Approved") {
+    statusColor = "lime";
+}
 
+if (data.status === "Rejected") {
+    statusColor = "red";
+}
+
+table.innerHTML += `
+<tr>
+
+<td>${data.name}</td>
+
+<td>${data.mobile}</td>
+
+<td>${data.pickup}</td>
+
+<td>${data.drop}</td>
+
+<td>${data.date}</td>
+
+<td>${data.vehicle}</td>
+
+<td style="color:${statusColor};font-weight:bold;">
+${data.status || "Pending"}
+</td>
+
+<td>
+
+<button onclick="approveBooking('${booking.id}')">
+✅ Approve
+</button>
+
+<button onclick="rejectBooking('${booking.id}')">
+❌ Reject
+</button>
+
+<button onclick="deleteBooking('${booking.id}')">
+🗑 Delete
+</button>
+
+<br><br>
+
+<a href="tel:${data.mobile}">
+<button>📞 Call</button>
+</a>
+
+<a href="https://wa.me/91${data.mobile}" target="_blank">
+<button>💬 WhatsApp</button>
+</a>
+
+</td>
+
+</tr>
+`;
+      window.approveBooking = async (id) => {
+  try {
+    await updateDoc(doc(db, "bookings", id), {
+      status: "Approved"
     });
 
-  });
+    alert("✅ Booking Approved");
 
-});
-window.approveBooking = async (id) => {
-  await updateDoc(doc(db, "bookings", id), {
-    status: "Approved"
-  });
-};
-
-window.rejectBooking = async (id) => {
-  await updateDoc(doc(db, "bookings", id), {
-    status: "Rejected"
-  });
-};
-
-window.deleteBooking = async (id) => {
-  if (confirm("Delete this booking?")) {
-    await deleteDoc(doc(db, "bookings", id));
+  } catch (error) {
+    console.error(error);
+    alert("Failed to approve booking.");
   }
 };
 
+window.rejectBooking = async (id) => {
+  try {
+    await updateDoc(doc(db, "bookings", id), {
+      status: "Rejected"
+    });
+
+    alert("❌ Booking Rejected");
+
+  } catch (error) {
+    console.error(error);
+    alert("Failed to reject booking.");
+  }
+};
+
+window.deleteBooking = async (id) => {
+
+  const confirmDelete = confirm(
+    "Are you sure you want to delete this booking?"
+  );
+
+  if (!confirmDelete) return;
+
+  try {
+
+    await deleteDoc(doc(db, "bookings", id));
+
+    alert("🗑 Booking Deleted Successfully");
+
+  } catch (error) {
+    console.error(error);
+    alert("Failed to delete booking.");
+  }
+};
