@@ -190,9 +190,3 @@ window.deleteBooking = async (id) => {
     alert("Failed to delete booking.");
   }
 };
-
-  } catch (error) {
-    console.error(error);
-    alert("Failed to delete booking.");
-  }
-};
