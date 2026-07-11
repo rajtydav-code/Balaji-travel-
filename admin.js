@@ -20,7 +20,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
+  apiKey: "AIzaSyBQFMYQACZbYc3iNl7NX4l8GQDZD7iABGA",
   authDomain: "balaji-travel-c7fe2.firebaseapp.com",
   projectId: "balaji-travel-c7fe2",
   storageBucket: "balaji-travel-c7fe2.firebasestorage.app",
