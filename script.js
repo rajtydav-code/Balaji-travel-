@@ -52,11 +52,13 @@ Vehicle: ${vehicle}`;
         "https://wa.me/" + phone + "?text=" + encodeURIComponent(message),
         "_blank"
       );
+    alert("Booking submitted successfully!");
+form.reset();
 
-      alert("Booking submitted successfully!");
-      form.reset();
-
-    } 
+} catch (error) {
+  console.error(error);
+  alert("Booking failed: " + error.message);
+    }
   });
 }
 // ===== Scroll Animation =====
