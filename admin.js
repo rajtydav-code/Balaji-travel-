@@ -74,11 +74,7 @@ onAuthStateChanged(auth, (user) => {
   loginBtn.style.display = "none";
   logoutBtn.style.display = "inline-block";
 
-  const q = query(
-    collection(db, "bookings"),
-    orderBy("createdAt", "desc")
-  );
-
+  const q = collection(db, "bookings");
   onSnapshot(q, (snapshot) => {
     bookings = [];
     table.innerHTML = "";
