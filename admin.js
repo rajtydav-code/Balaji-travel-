@@ -149,14 +149,18 @@ ${data.status || "Pending"}
 
 </tr>
 `;
-      window.approveBooking = async (id) => {
+  });
+
+});
+
+});
+
+window.approveBooking = async (id) => {
   try {
     await updateDoc(doc(db, "bookings", id), {
       status: "Approved"
     });
-
     alert("✅ Booking Approved");
-
   } catch (error) {
     console.error(error);
     alert("Failed to approve booking.");
@@ -168,9 +172,7 @@ window.rejectBooking = async (id) => {
     await updateDoc(doc(db, "bookings", id), {
       status: "Rejected"
     });
-
     alert("❌ Booking Rejected");
-
   } catch (error) {
     console.error(error);
     alert("Failed to reject booking.");
@@ -178,18 +180,16 @@ window.rejectBooking = async (id) => {
 };
 
 window.deleteBooking = async (id) => {
-
-  const confirmDelete = confirm(
-    "Are you sure you want to delete this booking?"
-  );
-
-  if (!confirmDelete) return;
+  if (!confirm("Delete this booking?")) return;
 
   try {
-
     await deleteDoc(doc(db, "bookings", id));
-
-    alert("🗑 Booking Deleted Successfully");
+    alert("🗑 Booking Deleted");
+  } catch (error) {
+    console.error(error);
+    alert("Failed to delete booking.");
+  }
+};
 
   } catch (error) {
     console.error(error);
