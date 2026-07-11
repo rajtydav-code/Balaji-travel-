@@ -185,9 +185,9 @@ Our driver will contact you soon.
 9654778379`;
 
     window.location.href =
-  "https://wa.me/91" +
+  "https://api.whatsapp.com/send?phone=91" +
   booking.mobile +
-  "?text=" +
+  "&text=" +
   encodeURIComponent(message);
       "_blank"
     );
@@ -226,9 +226,9 @@ Thank you,
 Balaji Travel`;
 
     window.location.href =
-  "https://wa.me/91" +
+  "https://api.whatsapp.com/send?phone=91" +
   booking.mobile +
-  "?text=" +
+  "&text=" +
   encodeURIComponent(message);
       "_blank"
     );
