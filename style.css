@@ -417,28 +417,27 @@ text-align:center;
 margin-top:50px;
 color:#aaa;
 }
+@media (max-width:768px){
 
-@media(max-width:768px){
+  header{
+    flex-direction:column;
+  }
 
-header{
-flex-direction:column;
+  nav{
+    margin-top:10px;
+  }
+
+  nav a{
+    display:block;
+    margin:10px 0;
+  }
+
+  .hero h1{
+    font-size:34px;
+  }
+
+  .hero p{
+    font-size:18px;
+  }
+
 }
-
-nav{
-margin-top:10px;
-}
-
-nav a{
-display:block;
-margin:10px 0;
-}
-
-.hero h1{
-font-size:34px;
-}
-
-.hero p{
-font-size:18px;
-}
-
-  } 
