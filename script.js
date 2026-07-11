@@ -13,38 +13,37 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 const form = document.getElementById("bookingForm");
 
 if (form) {
-  form.addEventListener("submit", function (e) {
+  form.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    const name = document.getElementById("name").value;
-    const mobile = document.getElementById("mobile").value;
-    const pickup = document.getElementById("pickup").value;
-    const drop = document.getElementById("drop").value;
-    const date = document.getElementById("date").value;
-    const vehicle = document.getElementById("vehicle").value;
+    const booking = {
+      name: document.getElementById("name").value,
+      mobile: document.getElementById("mobile").value,
+      pickup: document.getElementById("pickup").value,
+      drop: document.getElementById("drop").value,
+      date: document.getElementById("date").value,
+      vehicle: document.getElementById("vehicle").value,
+      createdAt: new Date()
+    };
 
-    const phone = "919654778379";
+    try {
+      await window.addDoc(window.collection(window.db, "bookings"), booking);
 
-    const message = `Hello Bala Ji Travel,
+      alert("✅ Booking submitted successfully.");
 
-New Booking Request
+      form.reset();
 
-Name: ${name}
-Mobile: ${mobile}
-Pickup: ${pickup}
-Drop: ${drop}
-Date: ${date}
-Vehicle: ${vehicle}`;
+      document.getElementById("payment").scrollIntoView({
+        behavior: "smooth"
+      });
 
-    window.open(
-      "https://wa.me/" + phone + "?text=" + encodeURIComponent(message),
-      "_blank"
-    );
-
-    alert("Redirecting to WhatsApp...");
-    form.reset();
+    } catch (err) {
+      alert("Booking failed.");
+      console.error(err);
+    }
   });
 }
+
 // ===== Scroll Animation =====
 const cards = document.querySelectorAll(".service-card, .fleet-card");
 
