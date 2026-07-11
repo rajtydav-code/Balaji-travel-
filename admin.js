@@ -94,3 +94,21 @@ onAuthStateChanged(auth, (user) => {
   });
 
 });
+window.approveBooking = async (id) => {
+  await updateDoc(doc(db, "bookings", id), {
+    status: "Approved"
+  });
+};
+
+window.rejectBooking = async (id) => {
+  await updateDoc(doc(db, "bookings", id), {
+    status: "Rejected"
+  });
+};
+
+window.deleteBooking = async (id) => {
+  if (confirm("Delete this booking?")) {
+    await deleteDoc(doc(db, "bookings", id));
+  }
+};
+
