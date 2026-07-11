@@ -80,7 +80,11 @@ onAuthStateChanged(auth, (user) => {
   onSnapshot(q, (snapshot) => {
 
     table.innerHTML = "";
-
+let total = 0;
+let pending = 0;
+let approved = 0;
+let rejected = 0;
+    
     if (snapshot.empty) {
       table.innerHTML =
       `<tr>
@@ -89,8 +93,22 @@ onAuthStateChanged(auth, (user) => {
       return;
     }
 
-    snapshot.forEach((booking) => {
+    snapshot.forEach((booking) => { </tr>
+`;
 
+});
+document.getElementById("totalBookings").innerText = total;
+document.getElementById("pendingBookings").innerText = pending;
+document.getElementById("approvedBookings").innerText = approved;
+document.getElementById("rejectedBookings").innerText = rejected;
+total++;
+
+const status = booking.data().status || "Pending";
+
+if (status === "Pending") pending++;
+if (status === "Approved") approved++;
+if (status === "Rejected") rejected++;
+      
       const data = booking.data();
       let statusColor = "orange";
 
