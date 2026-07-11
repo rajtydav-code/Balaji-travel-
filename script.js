@@ -56,10 +56,7 @@ Vehicle: ${vehicle}`;
       alert("Booking submitted successfully!");
       form.reset();
 
-    } catch (error) {
-      console.error(error);
-      alert("Booking failed. Please try again.");
-    }
+    } 
   });
 }
 // ===== Scroll Animation =====
@@ -72,7 +69,10 @@ window.addEventListener("scroll", () => {
     if (position < window.innerHeight - 100) {
       card.style.opacity = "1";
       card.style.transform = "translateY(0)";
-    }
+    } catch (error) {
+  console.error(error);
+  alert(error.message);
+  }
   });
 });
 
