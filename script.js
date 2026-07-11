@@ -52,18 +52,16 @@ Vehicle: ${vehicle}`;
         "https://wa.me/" + phone + "?text=" + encodeURIComponent(message),
         "_blank"
       );
-    alert("Booking submitted successfully!");
-form.reset();
+          alert("Booking submitted successfully!");
+      form.reset();
 
-} catch (error) {
-  console.error(error);
-  alert("Booking failed: " + error.message);
+    } catch (error) {
+      console.error(error);
+      alert("Booking failed: " + error.message);
     }
   });
 }
 // ===== Scroll Animation =====
-const cards = document.querySelectorAll(".service-card,.fleet-card");
-
 window.addEventListener("scroll", () => {
   cards.forEach(card => {
     const position = card.getBoundingClientRect().top;
