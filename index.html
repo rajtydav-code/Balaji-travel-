@@ -1,4 +1,41 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Balaji Travel</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#FFD700">
+</head>
+
+<body>
+
+<header>
+  <div class="logo">
+    <h2>Balaji Travel</h2>
+  </div>
+
+  <nav>
+    <a href="#fleet">Fleet</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#booking">Booking</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="overlay"></div>
+
+  <div class="hero-content">
+    <h1>Balaji Travel</h1>
+    <p>Taxi Service in Gurugram & Outstation</p>
+
+    <a href="#booking" class="btn">Book Now</a>
+    <a href="https://wa.me/919654778379" class="btn2">WhatsApp</a>
+  </div>
+</section><script>
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js");
 }
@@ -216,6 +253,12 @@ loading="lazy">
 <footer>
   <p>© 2026 Bala Ji Travel. All Rights Reserved.</p>
 </footer>
+<script src="script.js"></script>
 
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
+</script>
 </body>
 </html>
