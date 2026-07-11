@@ -108,3 +108,14 @@ if (footer) {
     "© " + new Date().getFullYear() +
     " Bala Ji Travel. All Rights Reserved.";
     }
+function calculateFare(){
+
+let rate=document.getElementById("car").value;
+
+let km=document.getElementById("km").value;
+
+let total=rate*km;
+
+document.getElementById("result").innerHTML="Estimated Fare : ₹"+total+" + Toll + State Tax + Parking + Driver Allowance";
+
+}
