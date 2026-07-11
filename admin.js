@@ -3,9 +3,9 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/fireba
 import {
   getFirestore,
   collection,
-  onSnapshot,
   query,
   orderBy,
+  onSnapshot,
   doc,
   updateDoc,
   deleteDoc
@@ -20,7 +20,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBQFMYQACZbYc3iNl7NX4l8GQDZD7iABGA",
+  apiKey: "YOUR_API_KEY",
   authDomain: "balaji-travel-c7fe2.firebaseapp.com",
   projectId: "balaji-travel-c7fe2",
   storageBucket: "balaji-travel-c7fe2.firebasestorage.app",
@@ -30,17 +30,19 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 const auth = getAuth(app);
 
 const provider = new GoogleAuthProvider();
-
 provider.setCustomParameters({
-    prompt: "select_account"
+  prompt: "select_account"
 });
+
 const loginBtn = document.getElementById("loginBtn");
 const logoutBtn = document.getElementById("logoutBtn");
 const table = document.getElementById("bookingTable");
+const searchBox = document.getElementById("searchBox");
+
+let bookings = [];
 
 loginBtn.onclick = async () => {
   try {
@@ -78,65 +80,47 @@ onAuthStateChanged(auth, (user) => {
   );
 
   onSnapshot(q, (snapshot) => {
-
+    bookings = [];
     table.innerHTML = "";
-let total = 0;
-let pending = 0;
-let approved = 0;
-let rejected = 0;
-    
-    if (snapshot.empty) {
-      table.innerHTML =
-      `<tr>
-        <td colspan="8">No bookings found</td>
-      </tr>`;
-      return;
-    }
 
-    snapshot.forEach((booking) => { </tr>
-`;
+    let total = 0;
+    let pending = 0;
+    let approved = 0;
+    let rejected = 0;
 
-});
-document.getElementById("totalBookings").innerText = total;
-document.getElementById("pendingBookings").innerText = pending;
-document.getElementById("approvedBookings").innerText = approved;
-document.getElementById("rejectedBookings").innerText = rejected;
-total++;
+    snapshot.forEach((booking) => {
 
-const status = booking.data().status || "Pending";
-
-if (status === "Pending") pending++;
-if (status === "Approved") approved++;
-if (status === "Rejected") rejected++;
-      
       const data = booking.data();
+
+      bookings.push({
+        id: booking.id,
+        ...data
+      });
+
+      total++;
+
+      const status = data.status || "Pending";
+
+      if (status === "Pending") pending++;
+      if (status === "Approved") approved++;
+      if (status === "Rejected") rejected++;
+
       let statusColor = "orange";
 
-if (data.status === "Approved") {
-    statusColor = "lime";
-}
+      if (status === "Approved") statusColor = "lime";
+      if (status === "Rejected") statusColor = "red";
 
-if (data.status === "Rejected") {
-    statusColor = "red";
-}
-
-table.innerHTML += `
+      table.innerHTML += `
 <tr>
-
 <td>${data.name}</td>
-
 <td>${data.mobile}</td>
-
 <td>${data.pickup}</td>
-
 <td>${data.drop}</td>
-
 <td>${data.date}</td>
-
 <td>${data.vehicle}</td>
 
 <td style="color:${statusColor};font-weight:bold;">
-${data.status || "Pending"}
+${status}
 </td>
 
 <td>
@@ -167,12 +151,16 @@ ${data.status || "Pending"}
 
 </tr>
 `;
+    });
+
+    document.getElementById("totalBookings").innerText = total;
+    document.getElementById("pendingBookings").innerText = pending;
+    document.getElementById("approvedBookings").innerText = approved;
+    document.getElementById("rejectedBookings").innerText = rejected;
+
   });
 
 });
-
-});
-
 window.approveBooking = async (id) => {
   try {
     await updateDoc(doc(db, "bookings", id), {
@@ -208,3 +196,23 @@ window.deleteBooking = async (id) => {
     alert("Failed to delete booking.");
   }
 };
+
+searchBox.addEventListener("input", function () {
+
+  const value = this.value.toLowerCase();
+  const rows = table.getElementsByTagName("tr");
+
+  for (let i = 0; i < rows.length; i++) {
+
+    const name = rows[i].cells[0]?.innerText.toLowerCase() || "";
+    const mobile = rows[i].cells[1]?.innerText.toLowerCase() || "";
+
+    if (name.includes(value) || mobile.includes(value)) {
+      rows[i].style.display = "";
+    } else {
+      rows[i].style.display = "none";
+    }
+
+  }
+
+});
