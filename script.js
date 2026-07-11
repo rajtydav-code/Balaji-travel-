@@ -57,8 +57,8 @@ Vehicle: ${vehicle}`;
       form.reset();
 
     } catch (error) {
-      console.error(error);
-      alert("Booking failed. Please try again.");
+  console.error(error);
+  alert(error.message);
     }
   });
 }
