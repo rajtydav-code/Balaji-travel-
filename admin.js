@@ -158,17 +158,46 @@ ${status}
 
 });
 window.approveBooking = async (id) => {
+
   try {
+
+    const booking = bookings.find(b => b.id === id);
+
     await updateDoc(doc(db, "bookings", id), {
       status: "Approved"
     });
-    alert("✅ Booking Approved");
+
+    const message =
+`🚖 *Balaji Travel*
+
+Hello ${booking.name},
+
+✅ Your booking has been *APPROVED*.
+
+📅 Date: ${booking.date}
+📍 Pickup: ${booking.pickup}
+📍 Drop: ${booking.drop}
+🚗 Vehicle: ${booking.vehicle}
+
+Our driver will contact you soon.
+
+📞 Balaji Travel
+9654778379`;
+
+    window.open(
+      "https://wa.me/91" +
+      booking.mobile +
+      "?text=" +
+      encodeURIComponent(message),
+      "_blank"
+    );
+
   } catch (error) {
     console.error(error);
     alert("Failed to approve booking.");
   }
-};
 
+};
 window.rejectBooking = async (id) => {
   try {
     await updateDoc(doc(db, "bookings", id), {
