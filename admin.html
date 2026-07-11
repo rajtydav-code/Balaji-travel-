@@ -1,14 +1,150 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Balaji Travel Admin</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Balaji Travel Admin Panel</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+body{
+background:#111;
+color:white;
+padding:20px;
+font-family:Arial,sans-serif;
+}
+
+h1{
+text-align:center;
+color:#FFD700;
+margin-bottom:20px;
+}
+
+#dashboard{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:15px;
+margin-bottom:20px;
+}
+
+.card{
+background:#1b1b1b;
+padding:20px;
+width:170px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 5px 15px rgba(255,215,0,.2);
+}
+
+.card h3{
+color:#FFD700;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+background:#1b1b1b;
+}
+
+th,td{
+padding:12px;
+border:1px solid #333;
+text-align:center;
+}
+
+th{
+background:#FFD700;
+color:black;
+}
+
+button{
+padding:8px 12px;
+margin:2px;
+border:none;
+border-radius:8px;
+background:#FFD700;
+cursor:pointer;
+font-weight:bold;
+}
+</style>
+
 </head>
+
 <body>
 
-<h2>Booking Requests</h2>
+<h1>🚖 Balaji Travel Admin Panel</h1>
 
-<div id="bookings"></div>
+<div style="text-align:center;margin-bottom:20px;">
+
+<button id="loginBtn">Login with Google</button>
+
+<button id="logoutBtn" style="display:none;">Logout</button>
+
+</div>
+<div style="text-align:center;margin:20px 0;">
+    <input
+        type="text"
+        id="searchBox"
+        placeholder="Search by Name or Mobile"
+        style="padding:12px;width:320px;border-radius:10px;border:none;font-size:16px;">
+</div>
+<div id="dashboard">
+
+<div class="card">
+<h3>Total</h3>
+<h2 id="totalBookings">0</h2>
+</div>
+
+<div class="card">
+<h3>Pending</h3>
+<h2 id="pendingBookings">0</h2>
+</div>
+
+<div class="card">
+<h3>Approved</h3>
+<h2 id="approvedBookings">0</h2>
+</div>
+
+<div class="card">
+<h3>Rejected</h3>
+<h2 id="rejectedBookings">0</h2>
+</div>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Name</th>
+<th>Mobile</th>
+<th>Pickup</th>
+<th>Drop</th>
+<th>Date</th>
+<th>Vehicle</th>
+<th>Status</th>
+<th>Actions</th>
+
+</tr>
+
+</thead>
+
+<tbody id="bookingTable">
+
+<tr>
+
+<td colspan="8">No Bookings</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 <script type="module" src="admin.js"></script>
 
