@@ -13,7 +13,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 const form = document.getElementById("bookingForm");
 
 if (form) {
-  form.addEventListener("submit", async function (e) {
+  form.addEventListener("submit", function (e) {
     e.preventDefault();
 
     const name = document.getElementById("name").value;
@@ -23,21 +23,9 @@ if (form) {
     const date = document.getElementById("date").value;
     const vehicle = document.getElementById("vehicle").value;
 
-    try {
-      await addDoc(collection(db, "bookings"), {
-        name,
-        mobile,
-        pickup,
-        drop,
-        date,
-        vehicle,
-        status: "Pending",
-        createdAt: new Date()
-      });
+    const phone = "919654778379";
 
-      const phone = "919654778379";
-
-      const message = `Hello Bala Ji Travel,
+    const message = `Hello Bala Ji Travel,
 
 New Booking Request
 
@@ -48,17 +36,13 @@ Drop: ${drop}
 Date: ${date}
 Vehicle: ${vehicle}`;
 
-      window.open(
-        "https://wa.me/" + phone + "?text=" + encodeURIComponent(message),
-        "_blank"
-      );
-          alert("Booking submitted successfully!");
-      form.reset();
+    window.open(
+      "https://wa.me/" + phone + "?text=" + encodeURIComponent(message),
+      "_blank"
+    );
 
-    } catch (error) {
-      console.error(error);
-      alert("Booking failed: " + error.message);
-    }
+    alert("Redirecting to WhatsApp...");
+    form.reset();
   });
 }
 // ===== Scroll Animation =====
