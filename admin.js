@@ -40,7 +40,7 @@ const logoutBtn = document.getElementById("logoutBtn");
 const table = document.getElementById("bookingTable");
 
 loginBtn.onclick = async () => {
-  await singOut(auth);
+  await signOut(auth);
   await signInWithPopup(auth,
 provider);
 };
@@ -69,7 +69,12 @@ onAuthStateChanged(auth, (user) => {
   onSnapshot(collection(db, "bookings"), (snapshot) => {
 
     table.innerHTML = "";
+if (snapshot.empty) {
+  table.innerHTML = `<tr><td colspan="8">No bookings found</td></tr>`;
+  return;
+}
 
+snapshot.forEach((booking) => {
     snapshot.forEach((booking) => {
 
       const data = booking.data();
