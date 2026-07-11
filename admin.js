@@ -199,15 +199,45 @@ Our driver will contact you soon.
 
 };
 window.rejectBooking = async (id) => {
+
   try {
+
+    const booking = bookings.find(b => b.id === id);
+
     await updateDoc(doc(db, "bookings", id), {
       status: "Rejected"
     });
-    alert("❌ Booking Rejected");
+
+    const message =
+`🚖 *Balaji Travel*
+
+Hello ${booking.name},
+
+❌ We are sorry.
+
+Your booking request could not be confirmed.
+
+Please contact us on
+📞 9654778379
+
+We will help you find another available vehicle.
+
+Thank you,
+Balaji Travel`;
+
+    window.open(
+      "https://wa.me/91" +
+      booking.mobile +
+      "?text=" +
+      encodeURIComponent(message),
+      "_blank"
+    );
+
   } catch (error) {
     console.error(error);
     alert("Failed to reject booking.");
   }
+
 };
 
 window.deleteBooking = async (id) => {
